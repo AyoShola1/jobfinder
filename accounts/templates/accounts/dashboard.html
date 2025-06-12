@@ -1,0 +1,71 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    
+    <div class="col-md-4 text-center">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-pic img-thumbnail mb-3">
+        {% else %}
+            <div class="profile-pic img-thumbnail mb-3 d-flex align-items-center justify-content-center bg-light">
+                <i class="bi bi-person-fill" style="font-size: 3rem;"></i>
+            </div>
+        {% endif %}
+        
+        <h3>{{ user.get_full_name }}</h3>
+        <p class="text-muted">@{{ user.username }}</p>
+        
+        {% if user.is_recruiter %}
+        <span class="badge bg-success">Recruiter</span>
+        {% endif %}
+        
+        {% if user.is_job_seeker %}
+        <span class="badge bg-info">Job Seeker</span>
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Profile Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Bio:</strong> {{ user.bio|default:"Not provided" }}</p>
+                
+                <div class="mt-4">
+                    <h5>Social Links</h5>
+                    <div class="d-flex gap-3">
+                        {% if user.linkedin_url %}
+                        <a href="{{ user.linkedin_url }}" target="_blank" class="btn btn-outline-primary">
+                            <i class="bi bi-linkedin"></i> LinkedIn
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.github_url %}
+                        <a href="{{ user.github_url }}" target="_blank" class="btn btn-outline-dark">
+                            <i class="bi bi-github"></i> GitHub
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.portfolio_url %}
+                        <a href="{{ user.portfolio_url }}" target="_blank" class="btn btn-outline-secondary">
+                            <i class="bi bi-globe"></i> Portfolio
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if user.resume %}
+                <div class="mt-4">
+                    <a href="{{ user.resume.url }}" target="_blank" class="btn btn-success">
+                        <i class="bi bi-file-earmark-pdf"></i> View Resume
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
